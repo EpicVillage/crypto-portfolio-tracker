@@ -1,31 +1,18 @@
 {
   "version": 2,
-  "builds": [
-    {
-      "src": "backend/server.js",
-      "use": "@vercel/node"
-    },
-    {
-      "src": "index.html",
-      "use": "@vercel/static"
+  "functions": {
+    "backend/server.js": {
+      "runtime": "@vercel/node"
     }
-  ],
+  },
   "routes": [
     {
       "src": "/api/(.*)",
       "dest": "backend/server.js"
     },
     {
-      "src": "/",
-      "dest": "index.html"
-    },
-    {
-      "src": "/(.*\\.(css|js|png|jpg|jpeg|gif|ico|svg))",
-      "dest": "/$1"
-    },
-    {
       "src": "/(.*)",
-      "dest": "index.html"
+      "dest": "$1"
     }
   ]
 }
