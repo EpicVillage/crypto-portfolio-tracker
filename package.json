@@ -58,3 +58,10 @@
   },
   "homepage": "https://github.com/epicvillage/crypto-portfolio-tracker#readme"
 }
+{
+  "scripts": {
+    "start": "node backend/server.js",
+    "build": "echo 'Build complete - static files ready'",
+    "dev": "node backend/server.js"
+  }
+}
