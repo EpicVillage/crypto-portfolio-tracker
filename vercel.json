@@ -3,7 +3,7 @@
   "builds": [
     {
       "src": "backend/server.js",
-      "use": "@vercel/node@3.0.0"
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -15,5 +15,10 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ]
+  ],
+  "functions": {
+    "backend/server.js": {
+      "runtime": "nodejs18.x"
+    }
+  }
 }
