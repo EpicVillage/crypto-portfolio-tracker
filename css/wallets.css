@@ -1,0 +1,756 @@
+/* css/wallets.css - Wallet Cards & Token Display */
+
+/* Grid Layout */
+.wallets-grid { 
+    display: grid; 
+    gap: 15px; 
+    margin-top: 20px; 
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+/* Responsive Grid Columns */
+@media (min-width: 1200px) { .wallets-grid { grid-template-columns: repeat(4, 1fr); } }
+@media (max-width: 1199px) and (min-width: 900px) { .wallets-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 899px) and (min-width: 600px) { .wallets-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 599px) { .wallets-grid { grid-template-columns: 1fr; padding: 0 10px; } }
+
+/* List View Layout */
+.wallets-grid.list-view {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+
+.wallets-grid.list-view .wallet-card {
+    display: flex;
+    flex-direction: row;
+    align-items: stretch;
+    min-height: 50px;
+    max-height: 50px;
+}
+
+/* ADDED: Fix for filtered/hidden wallets in list view */
+.wallets-grid.list-view .wallet-card.hidden,
+.wallets-grid.list-view .wallet-card[style*="display: none"] {
+    display: none !important;
+    height: 0 !important;
+    min-height: 0 !important;
+    max-height: 0 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    border: none !important;
+    overflow: hidden !important;
+}
+
+/* ADDED: Ensure visible wallets maintain proper layout */
+.wallets-grid.list-view .wallet-card:not(.hidden):not([style*="display: none"]) {
+    display: flex !important;
+    flex-direction: row !important;
+    align-items: stretch !important;
+    min-height: 50px !important;
+    max-height: 50px !important;
+}
+
+.wallets-grid.list-view .wallet-header {
+    flex-shrink: 0;
+    width: 150px;
+    border-radius: 6px 0 0 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    padding: 4px 8px;
+}
+
+.wallets-grid.list-view .wallet-content {
+    flex: 1;
+    padding: 4px 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.wallets-grid.list-view .wallet-summary {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 15px;
+    background: transparent;
+    padding: 0;
+    margin-bottom: 0;
+    min-width: 150px;
+}
+
+.wallets-grid.list-view .summary-item {
+    text-align: left;
+    min-width: 60px;
+}
+
+/* UPDATED: Increased font sizes for list view summary */
+.wallets-grid.list-view .summary-item .label {
+    font-size: 0.8rem; /* Increased from 0.65rem */
+    margin-bottom: 1px;
+}
+
+.wallets-grid.list-view .summary-item .value {
+    font-size: 0.9rem; /* Increased from 0.75rem */
+    font-weight: 600;
+}
+
+/* List View Token Display */
+.wallets-grid.list-view .solana-tokens-row {
+    display: flex !important;
+    flex-direction: row;
+    gap: 8px;
+    margin-top: 0;
+    width: auto;
+    max-width: none;
+    overflow: visible;
+    flex: 1;
+    justify-content: flex-end;
+}
+
+/* UPDATED: Even wider token containers (10% more) with smaller logos (20% more reduction) */
+.wallets-grid.list-view .solana-token-card {
+    background: var(--bg-3);
+    border-radius: 4px;
+    padding: 4px 10px; /* Increased padding for more space */
+    text-align: center;
+    border: 1px solid var(--border);
+    min-height: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px; /* Increased gap for better spacing */
+    overflow: hidden;
+    min-width: 110px; /* 10% increase from 100px */
+    max-width: 165px; /* 10% increase from 150px */
+}
+
+.wallets-grid.list-view .token-logo {
+    margin-bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 12px; /* 20% reduction from 15px (15 * 0.8 = 12) */
+    width: 12px; /* 20% reduction from 15px */
+    flex-shrink: 0;
+}
+
+.wallets-grid.list-view .token-logo img {
+    width: 12px; /* 20% reduction from 15px */
+    height: 12px; /* 20% reduction from 15px */
+    border-radius: 50%;
+}
+
+.wallets-grid.list-view .token-info {
+    margin-bottom: 0;
+    flex: 0;
+    display: none;
+}
+
+.wallets-grid.list-view .token-info .token-symbol {
+    font-weight: 600;
+    font-size: 0.8rem; /* Increased from 0.7rem */
+    margin-bottom: 0;
+    white-space: nowrap;
+}
+
+.wallets-grid.list-view .token-balance {
+    font-size: 0.75rem; /* Increased from 0.65rem */
+    margin-bottom: 2px;
+    white-space: nowrap;
+    display: none;
+}
+
+/* UPDATED: Larger token value text */
+.wallets-grid.list-view .token-value {
+    font-size: 0.75rem; /* Increased from 0.65rem */
+    font-weight: 600;
+    white-space: nowrap;
+}
+
+/* List View Hidden Elements */
+.wallets-grid.list-view .tokens-toggle,
+.wallets-grid.list-view .tokens-content {
+    display: none;
+}
+
+/* List View Header Content */
+.wallets-grid.list-view .wallet-header-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 2px;
+}
+
+/* UPDATED: Increased header text sizes */
+.wallets-grid.list-view .wallet-name {
+    font-size: 0.85rem; /* Increased from 0.75rem */
+    margin-bottom: 1px;
+}
+
+.wallets-grid.list-view .wallet-address {
+    font-size: 0.7rem; /* Increased from 0.6rem */
+    opacity: 0.8;
+}
+
+/* UPDATED: Increased button text sizes */
+.wallets-grid.list-view .edit-name-btn,
+.wallets-grid.list-view .copy-address-btn {
+    font-size: 10px; /* Increased from 8px */
+}
+
+.wallets-grid.list-view .remove-wallet-btn {
+    position: absolute;
+    top: 4px;
+    right: 4px;
+    font-size: 12px; /* Increased from 10px */
+    width: 16px; /* Increased from 14px */
+    height: 16px; /* Increased from 14px */
+}
+
+/* List View Loading Overlays */
+.wallets-grid.list-view .wallet-loading-overlay {
+    border-radius: 8px;
+}
+
+.wallets-grid.list-view .wallet-loading-content {
+    padding: 8px;
+}
+
+.wallets-grid.list-view .wallet-loading-spinner {
+    width: 16px; /* Increased from 14px */
+    height: 16px; /* Increased from 14px */
+    margin-bottom: 4px;
+}
+
+/* UPDATED: Increased loading text size */
+.wallets-grid.list-view .wallet-loading-text {
+    font-size: 0.8rem; /* Increased from 0.7rem */
+}
+
+/* Wallet Cards */
+.wallet-card {
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    background: var(--bg-2);
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow);
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    position: relative;
+}
+
+.wallet-card:hover {
+    border-color: var(--accent);
+}
+
+/* Wallet Loading Overlay */
+.wallet-loading-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(2px);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 10;
+    transition: opacity 0.3s ease;
+}
+
+.wallet-loading-content {
+    text-align: center;
+    color: white;
+    background: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.wallet-loading-spinner {
+    width: 24px;
+    height: 24px;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    border-top: 2px solid #ff6b35;
+    border-radius: 50%;
+    animation: walletSpin 1s linear infinite;
+    margin: 0 auto 10px;
+}
+
+.wallet-loading-text {
+    font-size: 0.9rem;
+    color: #ccc;
+    font-weight: 500;
+}
+
+@keyframes walletSpin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Error State */
+.wallet-error-state {
+    margin-top: 10px;
+    background: rgba(231, 76, 60, 0.1);
+    border: 1px solid rgba(231, 76, 60, 0.3);
+    border-radius: 6px;
+}
+
+/* Wallet Headers */
+.wallet-header { 
+    padding: 15px 20px; 
+    color: white; 
+    margin: 0; 
+    border-radius: 10px 10px 0 0; 
+}
+
+.wallet-header.ethereum { background: linear-gradient(135deg, #627eea, #4e6cd8); }
+.wallet-header.solana { background: linear-gradient(135deg, #9945ff, #7d39e6); }
+.wallet-header.polygon { background: linear-gradient(135deg, #8247e5, #6f28d1); }
+.wallet-header.bsc { background: linear-gradient(135deg, #f3ba2f, #e8a317); }
+
+.wallet-header-content { 
+    display: flex; 
+    flex-direction: column; 
+    gap: 8px; 
+}
+
+/* Wallet Header Layout */
+.wallet-name-row { 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    width: 100%;
+}
+
+.wallet-name-center {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    justify-content: center;
+    flex: 1;
+}
+
+.wallet-name { 
+    font-size: 1.1rem; 
+    font-weight: 600; 
+    text-align: center;
+}
+
+.spacer {
+    width: 20px;
+}
+
+.wallet-address-row { 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    gap: 8px; 
+}
+
+.wallet-address { 
+    font-family: monospace; 
+    font-size: 0.85rem; 
+    opacity: 0.8; 
+    word-break: break-all; 
+}
+
+/* Wallet Buttons */
+.edit-name-btn, .copy-address-btn, .remove-wallet-btn { 
+    background: none;
+    border: none; 
+    color: white;
+    cursor: pointer; 
+    opacity: 0.7;
+    transition: all 0.2s ease;
+    padding: 0;
+    line-height: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.edit-name-btn {
+    font-size: 14px;
+}
+
+.copy-address-btn {
+    font-size: 12px;
+}
+
+.remove-wallet-btn { 
+    color: #000;
+    font-size: 16px;
+    font-weight: bold;
+    opacity: 0.8;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.9);
+}
+
+.edit-name-btn:hover, .copy-address-btn:hover { 
+    opacity: 1; 
+    transform: scale(1.1);
+}
+
+.remove-wallet-btn:hover { 
+    opacity: 1; 
+    background: rgba(255,255,255,1);
+    transform: scale(1.1);
+}
+
+/* Wallet Content */
+.wallet-content { padding: 20px; }
+
+.wallet-summary { 
+    display: grid; 
+    grid-template-columns: 1fr 1fr; 
+    gap: 15px; 
+    margin-bottom: 20px;
+    padding: 15px; 
+    background: var(--bg-3); 
+    border-radius: 8px;
+}
+
+.summary-item { text-align: center; }
+
+.summary-item .label { 
+    font-size: 0.8rem; 
+    color: var(--text-3); 
+    text-transform: uppercase; 
+    margin-bottom: 5px; 
+}
+
+.summary-item .value { 
+    font-size: 1.1rem; 
+    font-weight: bold; 
+    color: var(--text-1); 
+}
+
+.summary-item .value.success { color: var(--success); }
+
+/* Token Display */
+.solana-tokens-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-top: 15px;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.solana-token-card {
+    background: var(--bg-3);
+    border-radius: 8px;
+    padding: 12px;
+    text-align: center;
+    border: 1px solid var(--border);
+    min-height: 120px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    overflow: hidden;
+}
+
+.solana-token-card:hover {
+    border-color: var(--accent);
+}
+
+/* Token Content */
+.token-logo { 
+    margin-bottom: 6px; 
+    display: flex; 
+    justify-content: center; 
+    align-items: center; 
+    height: 40px; 
+}
+
+.token-logo img { 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%; 
+    object-fit: cover; 
+    background: var(--bg-2); 
+    border: 1px solid var(--border); 
+}
+
+.token-logo.logo-failed::before {
+    content: attr(data-symbol); 
+    width: 32px; 
+    height: 32px; 
+    border-radius: 50%;
+    background: linear-gradient(135deg, #3498db, #2980b9); 
+    display: flex; 
+    align-items: center; 
+    justify-content: center;
+    font-size: 14px; 
+    font-weight: bold; 
+    color: white;
+}
+
+.token-info { 
+    margin-bottom: 6px; 
+    flex: 1; 
+}
+
+.token-info .token-symbol { 
+    font-weight: 600; 
+    font-size: 0.85rem; 
+    color: var(--text-1); 
+    margin-bottom: 2px; 
+}
+
+.token-info .token-name { 
+    font-size: 0.7rem; 
+    color: var(--text-3); 
+}
+
+.token-balance { 
+    font-size: 0.8rem; 
+    color: var(--text-2); 
+    margin-bottom: 4px; 
+    font-weight: 500; 
+}
+
+.token-value { 
+    font-size: 0.85rem; 
+    font-weight: 600; 
+    color: var(--success); 
+}
+
+/* Token Tables */
+.tokens-toggle { 
+    width: 100%; 
+    background: var(--bg-3); 
+    border: 2px solid var(--border); 
+    color: var(--text-1);
+    padding: 12px 20px; 
+    border-radius: 8px; 
+    cursor: pointer; 
+    font-size: 16px;
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center; 
+    margin-top: 15px;
+}
+
+.tokens-toggle:hover { background: var(--border); }
+
+.tokens-content { 
+    max-height: 0; 
+    overflow: hidden; 
+    transition: max-height 0.3s ease; 
+}
+
+.tokens-content.expanded { max-height: 500px; }
+
+.tokens-table { 
+    width: 100%; 
+    border-collapse: collapse; 
+    margin-top: 15px; 
+}
+
+.tokens-table th, .tokens-table td { 
+    padding: 10px; 
+    text-align: left; 
+    border-bottom: 1px solid var(--border); 
+    font-size: 0.9rem; 
+}
+
+.tokens-table th { 
+    background: var(--bg-3); 
+    font-weight: 600; 
+    color: var(--text-2); 
+    font-size: 0.8rem; 
+    text-transform: uppercase; 
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .wallets-grid { 
+        grid-template-columns: 1fr; 
+        gap: 15px; 
+        padding: 0 10px; 
+    }
+    
+    .wallet-card { 
+        width: 100%; 
+        max-width: 100%; 
+        margin: 0; 
+        border-radius: 8px; 
+    }
+    
+    .wallet-header { 
+        border-radius: 6px 6px 0 0; 
+        padding: 12px 15px; 
+    }
+    
+    .wallet-content { padding: 15px; }
+    
+    .solana-tokens-row { 
+        grid-template-columns: 1fr; 
+        gap: 8px; 
+    }
+    
+    .solana-token-card {
+        display: flex; 
+        flex-direction: row; 
+        align-items: center; 
+        text-align: left; 
+        padding: 10px; 
+        min-height: auto;
+    }
+    
+    .token-logo { 
+        margin-bottom: 0; 
+        margin-right: 10px; 
+        flex-shrink: 0; 
+        height: auto; 
+    }
+    
+    .token-info { 
+        flex: 1; 
+        text-align: left; 
+        margin-bottom: 0; 
+    }
+    
+    .token-balance, .token-value { 
+        text-align: right; 
+        min-width: 60px; 
+    }
+    
+    .wallet-address { font-size: 0.75rem; }
+    .wallet-name { font-size: 1rem; }
+    
+    .edit-name-btn { font-size: 12px; }
+    .copy-address-btn { font-size: 10px; }
+    .remove-wallet-btn { 
+        font-size: 14px;
+        width: 18px;
+        height: 18px;
+    }
+    
+    .wallet-loading-content { padding: 15px; }
+    .wallet-loading-spinner {
+        width: 20px;
+        height: 20px;
+    }
+    .wallet-loading-text { font-size: 0.8rem; }
+
+    /* Mobile List View - Maintain increased sizes */
+    .wallets-grid.list-view .wallet-card {
+        flex-direction: column;
+        min-height: auto;
+        max-height: none;
+    }
+    
+    .wallets-grid.list-view .wallet-header {
+        width: 100%;
+        border-radius: 8px 8px 0 0;
+    }
+    
+    .wallets-grid.list-view .wallet-content {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 10px;
+    }
+    
+    .wallets-grid.list-view .wallet-summary {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+        min-width: auto;
+    }
+    
+    .wallets-grid.list-view .summary-item {
+        text-align: center;
+        min-width: auto;
+    }
+
+    .wallets-grid.list-view .solana-tokens-row {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 6px;
+    }
+
+    .wallets-grid.list-view .solana-token-card {
+        min-width: auto;
+        max-width: none;
+    }
+}
+
+@media (max-width: 480px) {
+    .wallets-grid { padding: 0 5px; }
+    .wallet-card { margin: 0; }
+    .wallet-content { padding: 10px; }
+    .wallet-summary { 
+        grid-template-columns: 1fr; 
+        gap: 10px; 
+        padding: 10px; 
+    }
+    .summary-item .value { font-size: 1rem; }
+    
+    .wallet-loading-content { padding: 12px; }
+    .wallet-loading-spinner {
+        width: 18px;
+        height: 18px;
+        margin-bottom: 8px;
+    }
+    .wallet-loading-text { font-size: 0.75rem; }
+}
+
+/* Container Overflow Protection */
+.container { 
+    max-width: 100vw; 
+    padding: 0 15px; 
+    overflow-x: hidden; 
+}
+
+@media (max-width: 768px) { 
+    .container { padding: 0 10px; } 
+}
+
+@media (max-width: 480px) { 
+    .container { padding: 0 5px; } 
+}
+
+/* ADDED: Additional filter and layout fixes */
+.wallets-grid.list-view {
+    min-height: auto !important;
+    overflow: visible !important;
+}
+
+/* ADDED: Ensure proper spacing between visible items only */
+.wallets-grid.list-view .wallet-card + .wallet-card:not(.hidden):not([style*="display: none"]) {
+    margin-top: 8px;
+}
+
+/* ADDED: Fix grid container when in list view to prevent layout issues */
+.wallets-grid.list-view .wallet-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    flex-shrink: 0;
+    box-sizing: border-box;
+}
+
+/* ADDED: Prevent layout collapse when filters are active */
+.wallets-grid.list-view:empty::after {
+    content: "No wallets match the current filters";
+    display: block;
+    text-align: center;
+    padding: 40px 20px;
+    color: var(--text-3);
+    font-style: italic;
+}

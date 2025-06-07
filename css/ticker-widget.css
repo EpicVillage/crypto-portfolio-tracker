@@ -1,0 +1,94 @@
+/* css/ticker-widget.css - CoinGecko Widget Integration */
+
+/* Widget Container - FIXED: Centered height */
+.price-ticker-widget {
+    margin-bottom: 30px;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px var(--shadow);
+    border: 1px solid var(--border);
+    background: var(--bg-2);
+    padding: 0;
+    min-height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Widget Styling Override - FIXED: Perfect centering */
+gecko-coin-price-marquee-widget {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 50px;
+    border-radius: 10px;
+}
+
+/* Ensure widget fits container properly - FIXED: Centered iframe */
+.price-ticker-widget iframe {
+    border-radius: 10px;
+    border: none;
+    width: 100% !important;
+    height: 50px !important;
+    display: block;
+    margin: 0 auto;
+}
+
+/* Dark mode adjustments */
+[data-theme="dark"] .price-ticker-widget {
+    background: var(--bg-2);
+    border-color: var(--border);
+}
+
+[data-theme="light"] .price-ticker-widget {
+    background: var(--bg-1);
+    border-color: var(--border);
+}
+
+/* Responsive Design - FIXED: Centered on all screen sizes */
+@media (max-width: 768px) {
+    .price-ticker-widget {
+        margin-bottom: 20px;
+        min-height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    gecko-coin-price-marquee-widget {
+        height: 45px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .price-ticker-widget iframe {
+        height: 45px !important;
+        margin: 0 auto;
+        display: block;
+    }
+}
+
+@media (max-width: 480px) {
+    .price-ticker-widget {
+        margin-bottom: 15px;
+        min-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    gecko-coin-price-marquee-widget {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .price-ticker-widget iframe {
+        height: 40px !important;
+        margin: 0 auto;
+        display: block;
+    }
+}

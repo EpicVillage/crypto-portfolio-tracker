@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🚀</text></svg>">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crypto Portfolio Tracker</title>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.9.1/chart.min.js"></script>
+    
+    <script src="config/config.js"></script>
+    <script src="js/blockchain.js"></script>
+    <script src="js/api.js"></script>
+    
+    <script src="js/chart-enhanced.js"></script>
+    <script src="js/goals.js"></script>
+    <script src="js/portfolio-core.js"></script>
+    <script src="js/ui-core.js"></script>
+    <script src="js/wallet-core.js"></script>
+    <script src="js/app.js"></script>
+    
+    <link rel="stylesheet" href="css/core.css">
+    <link rel="stylesheet" href="css/ui.css">
+    <link rel="stylesheet" href="css/ticker-widget.css">
+    <link rel="stylesheet" href="css/wallets.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="header-content">
+                <div class="header-left">
+                    <h1>🚀 Crypto Portfolio Tracker</h1>
+                    <div class="supported-chains" style="color: var(--text-3); font-size: 0.9rem; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                        <span>ETH</span>
+                        <span style="color: var(--text-4);">|</span>
+                        <span>SOL</span>
+                        <span style="color: var(--text-4);">|</span>
+                        <span>BSC</span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- UPDATED: CoinGecko Widget Ticker -->
+        <div class="price-ticker-widget">
+            <script src="https://widgets.coingecko.com/gecko-coin-price-marquee-widget.js"></script>
+            <gecko-coin-price-marquee-widget 
+                locale="en" 
+                dark-mode="true" 
+                transparent-background="true" 
+                coin-ids="" 
+                initial-currency="usd">
+            </gecko-coin-price-marquee-widget>
+        </div>
+
+        <main>
+            <section class="portfolio-summary">
+                <div class="portfolio-summary-header">
+                    <div class="portfolio-summary-left">
+                        <h2>Portfolio Summary</h2>
+                        <div class="portfolio-status" id="portfolioStatus">
+                            <span class="status-indicator loading">🔄</span>
+                            <span class="status-text">Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-summary-center">
+                        <div class="currency-toggle">
+                            <button class="currency-btn active" data-currency="usd">USD</button>
+                            <button class="currency-btn" data-currency="eth">ETH</button>
+                            <button class="currency-btn" data-currency="sol">SOL</button>
+                            <button class="currency-btn" data-currency="btc">BTC</button>
+                        </div>
+                    </div>
+                    
+                    <div class="portfolio-summary-right">
+                        <button class="refresh-btn" id="refreshBtn">
+                            <span class="refresh-icon">🔄</span>
+                            <span class="refresh-text">Refresh</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="portfolio-chart-section">
+                    <div class="chart-info">
+                        <h4>📊 Holdings</h4>
+                        <ul class="chart-legend" id="chartLegend">
+                            <li><div class="legend-label"><div class="legend-color" style="background: #FF6B35;"></div><span>Loading...</span></div></li>
+                        </ul>
+                    </div>
+                    
+                    <div class="chart-center-section">
+                        <div class="summary-cards">
+                            <div class="summary-card">
+                                <h3>Total Value</h3>
+                                <div class="value" id="totalValue">$0.00</div>
+                            </div>
+                        </div>
+                        
+                        <div class="chart-container">
+                            <canvas id="myChart"></canvas>
+                            <div class="chart-overlay" id="chartOverlay">
+                                <div class="chart-loading">
+                                    <div class="loading-spinner"></div>
+                                    <p>Loading portfolio...</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="goals-info">
+                        <div class="goals-header">
+                            <h4>🎯 Goals</h4>
+                            <button class="edit-goals-btn" id="editGoalsBtn">Edit</button>
+                        </div>
+                        <ul class="goals-list" id="goalsList">
+                            <li class="goal-item">
+                                <div class="goal-label">
+                                    <div class="goal-color" style="background: #3498db;"></div>
+                                    <span class="goal-symbol">USDC</span>
+                                </div>
+                                <div class="goal-progress">
+                                    <div class="goal-percentage">19%</div>
+                                    <div class="goal-values">1,904 / 10,000</div>
+                                    <div class="goal-progress-bar">
+                                        <div class="goal-progress-fill" style="width: 19%; background: #3498db;"></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
+            <section class="wallets-section">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Your Wallets</h2>
+                    <button class="add-wallet-btn" id="addWalletBtn">
+                        <span class="btn-icon">+</span>
+                        <span class="btn-text">Add Wallet</span>
+                    </button>
+                </div>
+                
+                <div class="controls-section">
+                    <select class="filter-select" id="chainFilter">
+                        <option value="">All Chains</option>
+                        <option value="ethereum">Ethereum</option>
+                        <option value="solana">Solana</option>
+                        <option value="polygon">Polygon</option>
+                        <option value="bsc">BSC</option>
+                    </select>
+                    
+                    <select class="filter-select" id="valueFilter">
+                        <option value="">All Values</option>
+                        <option value="100">$100+</option>
+                        <option value="1000">$1,000+</option>
+                        <option value="5000">$5,000+</option>
+                    </select>
+                    
+                    <div class="view-toggle">
+                        <button class="view-btn active" data-view="grid" title="Grid View">
+                            <span>⊞</span>
+                        </button>
+                        <button class="view-btn" data-view="list" title="List View">
+                            <span>☰</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="wallets-grid" id="walletsContainer">
+                    <div class="empty-state" id="emptyState">
+                        <div class="empty-icon">👛</div>
+                        <h3>No Wallets Connected</h3>
+                        <p>Connect your crypto wallets to start tracking your portfolio.</p>
+                        <button class="empty-action-btn" onclick="document.getElementById('addWalletBtn').click()">
+                            Connect Your First Wallet
+                        </button>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <div id="messageArea" class="message-area"></div>
+
+        <div class="loading-overlay" id="loadingOverlay">
+            <div class="loading-content">
+                <div class="loading-spinner large"></div>
+                <h3>Initializing Portfolio Tracker</h3>
+                <p style="font-size: 0.9rem; color: #ccc; margin-top: 10px;">
+                    ⚡ Ultra-fast startup • 🔧 90% less code • 📦 4 JS modules • 🎨 Dark Mode
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
