@@ -299,3 +299,5 @@ This project was inspired by the need for a lightweight, efficient portfolio tra
 **Built with ❤️ by CryptooSID**
 
 *Making crypto portfolio tracking simple, fast, and beautiful.*
+# crypto-portfolio-tracker
+Track your crypto holdings across Ethereum, Solana, Polygon, and BSC
